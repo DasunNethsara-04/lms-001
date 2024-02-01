@@ -7,7 +7,9 @@
     <!-- Bootstarp CSS cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <title>Login Now</title>
 </head>
 
 <body>
@@ -23,10 +25,15 @@
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
-                                    <form action="./data/login-data.php" method="get">
+                                <?php if (isset($_GET['error'])) { ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?= $_GET['error'] ?>
+                                    </div>
+                                <?php } ?>
+                                    <form action="./data/login-data.php" method="post">
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
-                                            <span class="h1 fw-bold mb-0">Logo</span>
+                                            <!-- <span class="h1 fw-bold mb-0">Logo</span> -->
                                         </div>
 
                                         <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your
@@ -35,13 +42,21 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example17">Email address</label>
                                             <input type="email" id="form2Example17"
-                                                class="form-control form-control-lg" name="email" />
+                                                class="form-control form-control-lg" name="email" required />
                                         </div>
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example27">Password</label>
                                             <input type="password" id="form2Example27"
-                                                class="form-control form-control-lg" name="password" />
+                                                class="form-control form-control-lg" name="password" required />
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example27">Role</label>
+                                            <select name="role" id="" class="form-select">
+                                                <option value="teacher" class="">Teacher</option>
+                                                <option value="student" class="">Student</option>
+                                            </select>
                                         </div>
 
                                         <div class="pt-1 mb-4">
