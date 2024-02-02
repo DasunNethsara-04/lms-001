@@ -3,7 +3,7 @@ include("../connection/conn.php");
 session_start();
 
 
-if (isset($_POST["login"])) {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
     $role = $_POST["role"];
@@ -42,11 +42,11 @@ if (isset($_POST["login"])) {
     } else {
         // User not found
         $em = "User not found";
-        header("Location: ../index.php?error=$em");
+        header("Location: ../login.php?error=$em");
         exit;
     }
 
     $stmt->close();
 }
-$conn -> close();
+$conn->close();
 ?>
