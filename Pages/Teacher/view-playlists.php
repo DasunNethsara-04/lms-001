@@ -17,7 +17,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
-        <title>Teacher Dashboard | Techසර LK</title>
+        <title>All Playlists | Techසර LK</title>
     </head>
 
     <body class="sb-nav-fixed">
@@ -26,15 +26,47 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
         <div id="layoutSidenav_content">
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item">Welcome back, <b>
-                            <?= $_SESSION['role'] ?>
-                        </b> !</li>
-                </ol>
+                <!-- Content -->
+                <div class="container-fluid">
+                    <h1 class="mt-4">All Playlists</h1>
+                    <ol class="breadcrumb mb-4">
+                    </ol>
+
+                    <?php if (isset($_GET['success'])) { ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Done',
+                                text: "<?= $_GET['success'] ?>"
+                            })
+                        </script>
+                    <?php } ?>
+
+                    <?php if (isset($_GET['error'])) { ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Oops...',
+                                text: "<?= $_GET['error'] ?>"
+                            })
+                        </script>
+                    <?php } ?>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Videos</th>
+                                <th scope="col">Enrolled Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Tabel Body -->
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
-
-
 
             <!-- footer -->
             <?php include '../footer.php'; ?>

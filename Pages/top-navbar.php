@@ -23,6 +23,27 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <span class="dropdown-item" title="User">
                     <?php
+                    include("../../connection/conn.php");
+                    $email = $_SESSION['email'];
+                    $role = $_SESSION["role"];
+                    // echo $email;
+                    if ($role == "Teacher") {
+                        $sql = "SELECT title, first_name, last_name FROM teacher_tbl WHERE email='$email'";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $name = $row["title"] . " " . $row['first_name'] . " " . $row['last_name'];
+                            echo $name;
+                        }
+                    } else {
+                        $sql = "SELECT first_name, last_name FROM student_tbl WHERE email='$email'";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            $row = $result->fetch_assoc();
+                            $name = $row['first_name'] . " " . $row['last_name'];
+                            echo $name;
+                        }
+                    }
 
                     ?>
                 </span>

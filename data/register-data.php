@@ -1,7 +1,8 @@
 <?php
 include("../connection/conn.php");
 
-function containsScript($input) {
+function containsScript($input)
+{
     // Check if the input contains script tags or potentially harmful content
     $pattern = "/<script|<\/script|<\?php|<\?|eval\(|system\(|exec\(|passthru\(|shell_exec\(|popen\(|proc_open\(/i";
     return preg_match($pattern, $input);
@@ -52,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
+    $stmt->close();
 
     if ($result->num_rows == 0) {
         // Add student using parameterized query
@@ -80,4 +82,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit();
     }
 }
+$conn->close();
 ?>
