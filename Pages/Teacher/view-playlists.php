@@ -31,37 +31,60 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                     <h1 class="mt-4">All Playlists</h1>
                     <ol class="breadcrumb mb-4">
                     </ol>
-
-                    <?php if (isset($_GET['success'])) { ?>
-                        <script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Done',
-                                text: "<?= $_GET['success'] ?>"
-                            })
-                        </script>
-                    <?php } ?>
-
-                    <?php if (isset($_GET['error'])) { ?>
-                        <script>
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Oops...',
-                                text: "<?= $_GET['error'] ?>"
-                            })
-                        </script>
-                    <?php } ?>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Videos</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Teacher</th>
                                 <th scope="col">Enrolled Students</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Tabel Body -->
+                            <?php
+                            include("../../connection/conn.php");
+                            $sql1 = "SELECT c.course_name, COUNT(l.lesson_id) AS num_lessons, CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name, COUNT(se.student_id) AS num_students FROM course_tbl c LEFT JOIN lesson_tbl l ON c.course_id = l.course_id LEFT JOIN teacher_tbl t ON c.teacher_id = t.teacher_id LEFT JOIN student_enroll_tbl se ON l.lesson_id = se.lesson_id GROUP BY c.course_id, c.course_name, t.title, t.first_name, t.last_name;";
+                            $result1 = $conn->query($sql1);
+                            if ($result->num_rows > 0) {
+                                // have some playlists
+                                while ($row1 = $result1->fetch_assoc()) {
+                                    $crs_name = $row1["course_name"];
+                                    $crs_videos = $row1["num_lessons"];
+                                    $teacher_name = $row1["teacher_name"];
+                                    $num_students = $row1["num_students"];
+
+                                    $sql2 = "SELECT ";
+
+                                ?>
+                                    <tr>
+                                        <td><?=$crs_name?></td>
+                                        <td><?=$crs_videos?></td>
+                                        <td><?php
+                                                if($crs_videos > 0) {
+                                                    ?>
+                                                    <span class="badge rounded-pill text-bg-success">Available</span>
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <span class="badge rounded-pill text-bg-warning">Comming Soon</span>
+                                                    <?php
+                                                }
+                                            ?></td>
+                                        <td><?=$teacher_name?></td>
+                                        <td><?= $num_students ?></td>
+                                    </tr>
+                                <?php
+                                }
+                            } else {
+                                // no playlists
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    There are no any playlists created!
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </tbody>
                     </table>
 

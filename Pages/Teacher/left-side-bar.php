@@ -30,8 +30,8 @@
                     <div class="collapse" id="collapseLayouts4" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="">View</a>
-                            <a class="nav-link" href="">Add New Video</a>
+                            <a class="nav-link" href="view-videos.php">View</a>
+                            <a class="nav-link" href="add-videos.php">Add New Video</a>
                         </nav>
                     </div>
 
