@@ -40,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $stmt = $conn->prepare("INSERT INTO course_tbl (course_name, course_type_id, teacher_id) VALUES (?, ?, ?)");
             $stmt->bind_param("sii", $course_name, $course_type, $teacher_id);
             $stmt->execute();
-            if ($stmt->affected_rows > 0) {
+            $result = $stmt->affected_rows;
+            $stmt->close();
+            if ($result > 0) {
                 $success_message = "New Playlist Added!";
                 $success_message = htmlspecialchars($success_message, ENT_QUOTES, 'UTF-8');
                 header("Location: ../Pages/Teacher/add-playlist.php?success=$success_message");
@@ -110,7 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $stmt = $conn->prepare("INSERT INTO course_tbl (course_name, course_type_id, teacher_id, course_pic) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("siis", $course_name, $course_type, $teacher_id, $filename);
                 $stmt->execute();
-                if ($stmt->affected_rows > 0) {
+                $result = $stmt->affected_rows;
+                $stmt->close();
+                if ($result > 0) {
                     $success_message = "New Playlist Added!";
                     $success_message = htmlspecialchars($success_message, ENT_QUOTES, 'UTF-8');
                     header("Location: ../Pages/Teacher/add-playlist.php?success=$success_message");

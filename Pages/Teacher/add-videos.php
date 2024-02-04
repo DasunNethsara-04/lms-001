@@ -15,8 +15,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
         <title>Add New Video | Techසර LK</title>
     </head>
@@ -73,12 +71,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Lesson Number</label>
-                            <!-- <?php
-                            $sql = "SELECT COALESCE(COUNT(lesson_number), 0) AS latest_lesson_number FROM lesson_tbl ORDER BY lesson_number DESC LIMIT 1";
-                            $result = $conn->query($sql);
-                            $row = $result->fetch_assoc();
-                            $lesson_number = $row["latest_lesson_number"] + 1
-                                ?> -->
                             <input type="text" name="lesson_no" class="form-control" autocomplete="off" required readonly
                                 id="lesson_num">
                         </div>
@@ -136,5 +128,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
 
     <?php
+    $conn->close();
 }
 ?>

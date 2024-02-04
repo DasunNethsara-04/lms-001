@@ -8,4 +8,5 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 echo $row['latest_lesson_number'] + 1;
 
+$conn->close();
 ?>

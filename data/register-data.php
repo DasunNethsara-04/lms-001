@@ -62,8 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $insertStmt = $conn->prepare("INSERT INTO student_tbl (first_name, last_name, email, password, date_added, status) VALUES (?, ?, ?, ?, ?, ?)");
         $insertStmt->bind_param("sssssi", $fname, $lname, $email, $hashed_pwd, $current_date, $state);
         $insertStmt->execute();
+        $result = $insertStmt->affected_rows;
 
-        if ($insertStmt->affected_rows > 0) {
+        if ($result > 0) {
             $success_message = "Registration Success! Now you can login";
             $success_message = htmlspecialchars($success_message, ENT_QUOTES, 'UTF-8');
             header("Location: ../login.php?success=$success_message");

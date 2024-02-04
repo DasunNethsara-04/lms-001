@@ -1,6 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
+    include("../../connection/conn.php");
     ?>
 
     <!DOCTYPE html>
@@ -61,18 +62,20 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                         <div class="mb-3">
                             <label class="form-label">Course Type</label>
                             <select name="course_type" id="" class="form-select">
-                                <option value="1">Programming</option>
-                                <option value="2">Computer Science</option>
-                                <option value="3">IT</option>
-                                <option value="4">A/L ICT</option>
-                                <option value="5">O/L ICT</option>
+                                <?php
+                                $sql = "SELECT * FROM course_type_tbl";
+                                $result = $conn->query($sql);
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<option value=" . $row['course_type_id'] . ">" . $row['course_type_name'] . "</option>";
+                                }
+                                ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Teacher/ Conduct By</label>
                             <select name="teacher_id" id="" class="form-select">
                                 <?php
-                                include("../../connection/conn.php");
+
                                 $sql = "SELECT teacher_id, title, first_name, last_name FROM teacher_tbl WHERE email='$email'";
                                 $result = $conn->query($sql);
                                 if ($result->num_rows > 0) {
@@ -82,7 +85,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                                 } else {
                                     echo "<option value=''>No Teachers</option>";
                                 }
-                                $conn->close();
+
                                 ?>
                             </select>
                         </div>
@@ -117,5 +120,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
 
     <?php
+    $conn->close();
 }
 ?>

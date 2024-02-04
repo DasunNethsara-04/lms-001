@@ -18,6 +18,29 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
         <title>All Playlists | Techසර LK</title>
+        <style>
+            .card {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+            }
+
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0 solid rgba(0, 0, 0, .125);
+                border-radius: .25rem;
+            }
+
+            .card-body {
+                flex: 1 1 auto;
+                min-height: 1px;
+                padding: 1rem;
+            }
+        </style>
     </head>
 
     <body class="sb-nav-fixed">
@@ -25,70 +48,63 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <?php include 'left-side-bar.php'; ?>
 
         <div id="layoutSidenav_content">
+            <!-- Content -->
             <div class="container-fluid">
-                <!-- Content -->
-                <div class="container-fluid">
-                    <h1 class="mt-4">All Playlists</h1>
-                    <ol class="breadcrumb mb-4">
-                    </ol>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Videos</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Teacher</th>
-                                <th scope="col">Enrolled Students</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include("../../connection/conn.php");
-                            $sql1 = "SELECT c.course_name, COUNT(l.lesson_id) AS num_lessons, CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name, COUNT(se.student_id) AS num_students FROM course_tbl c LEFT JOIN lesson_tbl l ON c.course_id = l.course_id LEFT JOIN teacher_tbl t ON c.teacher_id = t.teacher_id LEFT JOIN student_enroll_tbl se ON l.lesson_id = se.lesson_id GROUP BY c.course_id, c.course_name, t.title, t.first_name, t.last_name;";
-                            $result1 = $conn->query($sql1);
-                            if ($result->num_rows > 0) {
-                                // have some playlists
-                                while ($row1 = $result1->fetch_assoc()) {
-                                    $crs_name = $row1["course_name"];
-                                    $crs_videos = $row1["num_lessons"];
-                                    $teacher_name = $row1["teacher_name"];
-                                    $num_students = $row1["num_students"];
+                <h1 class="mt-4">All Playlists</h1>
+                <div class="row mt-4">
+                    <?php
+                    include("../../connection/conn.php");
+                    $sql1 = "SELECT c.course_name, c.course_pic, c.course_type_id, COUNT(l.lesson_id) AS num_lessons, CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name, COUNT(se.student_id) AS num_students FROM course_tbl c LEFT JOIN lesson_tbl l ON c.course_id = l.course_id LEFT JOIN teacher_tbl t ON c.teacher_id = t.teacher_id LEFT JOIN student_enroll_tbl se ON l.lesson_id = se.lesson_id GROUP BY c.course_id, c.course_name, t.title, t.first_name, t.last_name;";
+                    $result1 = $conn->query($sql1);
+                    if ($result->num_rows > 0) {
+                        // have some playlists
+                        while ($row1 = $result1->fetch_assoc()) {
+                            $crs_name = $row1["course_name"];
+                            $crs_videos = $row1["num_lessons"];
+                            $teacher_name = $row1["teacher_name"];
+                            $num_students = $row1["num_students"];
+                            $course_pic = $row1["course_pic"];
+                            $course_topic_id = $row1["course_type_id"];
 
-                                    $sql2 = "SELECT ";
+                            $sql2 = "SELECT course_type_name FROM course_type_tbl WHERE course_type_id='$course_topic_id'";
+                            $result2 = $conn->query($sql2);
+                            $row2 = $result2->fetch_assoc();
+                            $course_type_name = $row2["course_type_name"];
 
-                                ?>
-                                    <tr>
-                                        <td><?=$crs_name?></td>
-                                        <td><?=$crs_videos?></td>
-                                        <td><?php
-                                                if($crs_videos > 0) {
-                                                    ?>
-                                                    <span class="badge rounded-pill text-bg-success">Available</span>
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <span class="badge rounded-pill text-bg-warning">Comming Soon</span>
-                                                    <?php
-                                                }
-                                            ?></td>
-                                        <td><?=$teacher_name?></td>
-                                        <td><?= $num_students ?></td>
-                                    </tr>
-                                <?php
-                                }
-                            } else {
-                                // no playlists
-                                ?>
-                                <div class="alert alert-danger" role="alert">
-                                    There are no any playlists created!
-                                </div>
-                                <?php
-                            }
+
                             ?>
-                        </tbody>
-                    </table>
-
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center">
+                                            <img src="../<?= $course_pic ?>" alt="<?= $course_name ?>" class="rounded-circle"
+                                                width="100">
+                                            <div class="mt-3">
+                                                <h4>
+                                                    <?= $crs_name ?>
+                                                </h4>
+                                                <p class="text-secondary mb-1">Topic: <span class="badge rounded-pill text-bg-info">
+                                                        <?= $course_type_name ?>
+                                                    </span></p>
+                                                <p class="text-muted font-size-sm">Teacher: <b>
+                                                        <?= $teacher_name ?>
+                                                    </b></p>
+                                                <p class="text-muted font-size-sm">Videos: <b>
+                                                        <?= $crs_videos ?>
+                                                    </b> | Enrolled: <b>
+                                                        <?= $num_students ?>
+                                                    </b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
+
             </div>
 
             <!-- footer -->
@@ -114,5 +130,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
 
     <?php
+    $conn->close();
 }
 ?>

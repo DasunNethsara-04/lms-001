@@ -47,6 +47,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                                             </option>
                                             <?php
                                         }
+                                        $conn->close();
                                         ?>
                                     </select>
                                 </div>

@@ -1,6 +1,16 @@
 <?php
 session_start();
 if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
+
+    function getData($table_name)
+    {
+        include("../../connection/conn.php");
+        $sql = "SELECT COUNT(*) as count FROM $table_name";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+
     ?>
 
     <!DOCTYPE html>
@@ -18,6 +28,61 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
         <title>Teacher Dashboard | Techසර LK</title>
+        <style>
+            .card-counter {
+                box-shadow: 2px 2px 10px #dadada;
+                margin: 5px;
+                padding: 20px 10px;
+                background-color: #fff;
+                height: 100px;
+                border-radius: 5px;
+                transition: 0.3s linear all;
+            }
+
+            .card-counter:hover {
+                box-shadow: 4px 4px 20px #dadada;
+                transition: 0.3s linear all;
+            }
+
+            .card-counter.primary {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .card-counter.danger {
+                background-color: #ef5350;
+                color: #fff;
+            }
+
+            .card-counter.success {
+                background-color: #66bb6a;
+                color: #fff;
+            }
+
+            .card-counter.info {
+                background-color: #26c6da;
+                color: #fff;
+            }
+
+            .card-counter .count-numbers {
+                position: absolute;
+                right: 35px;
+                top: 20px;
+                font-size: 32px;
+                display: block;
+            }
+
+            .card-counter .count-name {
+                position: absolute;
+                right: 35px;
+                top: 65px;
+                font-style: italic;
+                text-transform: capitalize;
+                opacity: 0.5;
+                display: block;
+                font-size: 18px;
+            }
+        </style>
     </head>
 
     <body class="sb-nav-fixed">
@@ -32,12 +97,59 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                             <?= $_SESSION['role'] ?>
                         </b> !</li>
                 </ol>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card-counter primary">
+                            <!-- <i class="fa fa-code-fork"></i> -->
+                            <i style="opacity: 0.4;" class="fa-solid fa-graduation-cap fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= getData("student_tbl") ?>
+                            </span>
+                            <span class="count-name">Students</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-counter danger">
+                            <!-- <i class="fa fa-ticket fs-1"></i> -->
+                            <i style="opacity: 0.4;" class="fa-solid fa-chalkboard-user fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= getData("teacher_tbl") ?>
+                            </span>
+                            <span class="count-name">Teachers</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card-counter success">
+                            <!-- <i class="fa fa-database  fs-1"></i> -->
+                            <i style="opacity: 0.4;" class="fa-solid fa-book fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= getData("course_tbl") ?>
+                            </span>
+                            <span class="count-name">Courses</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card-counter info">
+                            <i style="opacity: 0.4;" class="fa-solid fa-video  fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= getData("lesson_tbl") ?>
+                            </span>
+                            <span class="count-name">Total Videos</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
 
             <!-- footer -->
-            <?php include '../footer.php'; ?>
+            <?php
+            include '../footer.php';
+            ?>
         </div>
         </div>
 
@@ -59,5 +171,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
 
     <?php
+    $conn->close();
 }
 ?>
