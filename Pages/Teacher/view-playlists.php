@@ -54,7 +54,24 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                 <div class="row mt-4">
                     <?php
                     include("../../connection/conn.php");
-                    $sql1 = "SELECT c.course_name, c.course_pic, c.course_type_id, COUNT(l.lesson_id) AS num_lessons, CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name, COUNT(se.student_id) AS num_students FROM course_tbl c LEFT JOIN lesson_tbl l ON c.course_id = l.course_id LEFT JOIN teacher_tbl t ON c.teacher_id = t.teacher_id LEFT JOIN student_enroll_tbl se ON l.lesson_id = se.lesson_id GROUP BY c.course_id, c.course_name, t.title, t.first_name, t.last_name;";
+                    $sql1 = "SELECT
+                            c.course_id,
+                            c.course_name,
+                            c.course_pic,
+                            c.course_type_id,
+                            COUNT(l.lesson_id) AS num_lessons,
+                            CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name,
+                            COUNT(se.student_id) AS num_students
+                        FROM
+                            course_tbl c
+                        LEFT JOIN
+                            lesson_tbl l ON c.course_id = l.course_id
+                        LEFT JOIN
+                            teacher_tbl t ON c.teacher_id = t.teacher_id
+                        LEFT JOIN
+                            student_enroll_tbl se ON c.course_id = se.course_id
+                        GROUP BY
+                            c.course_id, c.course_name, t.title, t.first_name, t.last_name;";
                     $result1 = $conn->query($sql1);
                     if ($result->num_rows > 0) {
                         // have some playlists
@@ -91,8 +108,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                                                     </b></p>
                                                 <p class="text-muted font-size-sm">Videos: <b>
                                                         <?= $crs_videos ?>
-                                                    </b> | Enrolled: <b>
-                                                        <?= $num_students ?>
                                                     </b></p>
                                             </div>
                                         </div>

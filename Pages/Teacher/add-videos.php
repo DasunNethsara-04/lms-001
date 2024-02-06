@@ -81,7 +81,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
                         <div class="mb-3">
                             <label class="form-label">Video Link</label>
-                            <input type="url" name="lesson_url" class="form-control" autocomplete="off" required>
+                            <input type="text" name="lesson_url" class="form-control" autocomplete="off" required>
                         </div>
                         <button type="submit" class="btn btn-primary" name="add">Add Video</button>
                     </form>
