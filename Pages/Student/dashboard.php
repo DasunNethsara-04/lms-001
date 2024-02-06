@@ -8,7 +8,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
     <html lang="en">
 
     <head>
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -19,6 +19,29 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
         <title>Student Dashboard | Techසර LK</title>
+        <style>
+            .card {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+            }
+
+            .card {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0 solid rgba(0, 0, 0, .125);
+                border-radius: .25rem;
+            }
+
+            .card-body {
+                flex: 1 1 auto;
+                min-height: 1px;
+                padding: 1rem;
+            }
+        </style>
     </head>
 
     <body class="sb-nav-fixed">
@@ -27,20 +50,118 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
         <div id="layoutSidenav_content">
 
-      <!-- content goes here. do not remove any code -->
-      <div class="container-fluid">
-        <h1 class="mt-4">Dashboard</h1>
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item">Welcome back, <b>
-              <?= $_SESSION['role'] ?>
-            </b> !</li>
-        </ol>
-      </div>
+            <!-- content goes here. do not remove any code -->
+            <div class="container-fluid">
+                <!-- <h1 class="mt-4">Dashboard</h1> -->
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item">Welcome back, <b>
+                            <?= $_SESSION['role'] ?>
+                        </b> !</li>
+                </ol>
 
-      <!-- footer -->
-      <?php include '../footer.php'; ?>
-    </div>
-    </div>
+                <h1 class="mt-4">All Playlists</h1>
+                <div class="row mt-4">
+                    <?php
+                    include("../../connection/conn.php");
+                    $sql1 = "SELECT
+                                c.course_id,
+                                c.course_name,
+                                c.course_pic,
+                                c.course_type_id,
+                                COUNT(DISTINCT l.lesson_id) AS num_lessons,
+                                CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name
+                            FROM
+                                course_tbl c
+                            LEFT JOIN
+                                lesson_tbl l ON c.course_id = l.course_id
+                            LEFT JOIN
+                                teacher_tbl t ON c.teacher_id = t.teacher_id
+                            GROUP BY
+                                c.course_id, c.course_name, c.course_pic, c.course_type_id, t.title, t.first_name, t.last_name;
+                            ;
+                        ";
+                    $result1 = $conn->query($sql1);
+                    if ($result->num_rows > 0) {
+                        // have some playlists
+                        while ($row1 = $result1->fetch_assoc()) {
+                            $crs_id = $row1["course_id"];
+                            $crs_name = $row1["course_name"];
+                            $crs_videos = $row1["num_lessons"];
+                            $teacher_name = $row1["teacher_name"];
+                            $course_pic = $row1["course_pic"];
+                            $course_topic_id = $row1["course_type_id"];
+
+                            $sql2 = "SELECT course_type_name FROM course_type_tbl WHERE course_type_id='$course_topic_id'";
+                            $result2 = $conn->query($sql2);
+                            $row2 = $result2->fetch_assoc();
+                            $course_type_name = $row2["course_type_name"];
+
+
+                            ?>
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center">
+                                            <img src="../<?= $course_pic ?>" alt="<?= $course_name ?>" class="rounded-circle"
+                                                width="100">
+                                            <div class="mt-3">
+                                                <h4>
+                                                    <?= $crs_name ?>
+                                                </h4>
+                                                <p class="text-secondary mb-1">Topic: <span class="badge rounded-pill text-bg-info">
+                                                        <?= $course_type_name ?>
+                                                    </span></p>
+                                                <p class="text-muted font-size-sm">Teacher: <b>
+                                                        <?= $teacher_name ?>
+                                                    </b></p>
+                                                <p class="text-muted font-size-sm">Videos: <b>
+                                                        <?= $crs_videos ?>
+                                                    </b>
+                                                    </b></p>
+
+                                                <?php
+                                                $std_email = $_SESSION['email'];
+                                                $sql2 = "SELECT
+                                                            st.*,
+                                                            c.*
+                                                        FROM
+                                                            student_tbl st
+                                                        INNER JOIN
+                                                            student_enroll_tbl se ON st.student_id = se.student_id
+                                                        INNER JOIN
+                                                            course_tbl c ON se.course_id = c.course_id
+                                                        WHERE
+                                                            st.email = '$std_email' AND c.course_id = $crs_id;
+                                                        ";
+                                                $result2 = $conn->query($sql2);
+                                                if ($result2->num_rows < 1) {
+                                                    ?>
+                                                    <a class="btn btn-primary btn-sm <?= ($crs_videos > 0) ? "" : "disabled" ?>"
+                                                        href="../../data/enroll-student-to-course.php?course_id=<?= $crs_id ?>&student_email=<?= $std_email ?>&course_name=<?= $crs_name ?>">Enroll</a>
+                                                <?php } else {
+                                                    ?>
+                                                    <a class="btn btn-secondary btn-sm <?= ($crs_videos > 0) ? "" : "disabled" ?>"
+                                                        href="show-video-list.php?course_id=<?= $crs_id ?>&course_name=<?= $crs_name ?>">Continue</a>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+
+                </div>
+            </div>
+
+            <!-- footer -->
+            <?php include '../footer.php'; ?>
+        </div>
+        </div>
 
 
         <script>
@@ -50,7 +171,8 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
         </script>
         <script src="../../scripts/scripts.js"></script>
         <!-- Bootstrap js cdn -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
 
     </body>
 
@@ -59,5 +181,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
 
     <?php
+    $conn->close();
 }
 ?>
