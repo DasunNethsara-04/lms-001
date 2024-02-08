@@ -123,5 +123,8 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
 
     <?php
+} else {
+    header("Location: ../../login.php");
+    exit();
 }
 ?>

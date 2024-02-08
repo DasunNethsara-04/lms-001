@@ -146,5 +146,8 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
 
     <?php
     $conn->close();
+} else {
+    header("Location: ../../login.php");
+    exit();
 }
 ?>

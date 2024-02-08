@@ -52,12 +52,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
             <!-- content goes here. do not remove any code -->
             <div class="container-fluid">
-                <!-- <h1 class="mt-4">Dashboard</h1> -->
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item">Welcome back, <b>
-                            <?= $_SESSION['role'] ?>
-                        </b> !</li>
-                </ol>
 
                 <h1 class="mt-4">All Playlists</h1>
                 <div class="row mt-4">
@@ -182,5 +176,8 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
     <?php
     $conn->close();
+} else {
+    header("Location: ../../login.php");
+    exit();
 }
 ?>

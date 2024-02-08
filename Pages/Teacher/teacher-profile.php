@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
+if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
     include("../../connection/conn.php");
-    $sql = "SELECT * FROM student_tbl WHERE email='" . $_SESSION['email'] . "' AND status=1";
+    $sql = "SELECT * FROM teacher_tbl WHERE email='" . $_SESSION['email'] . "' AND status=1";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
     $first_name = $row["first_name"];
@@ -75,7 +75,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                         </script>
                     <?php } ?>
 
-                    <form method="post" class="shadow p-3  mt-3 form-w" action="../../data/update-student-data.php">
+                    <form method="post" class="shadow p-3  mt-3 form-w" action="../../data/update-teacher-data.php">
                         <div class="container rounded bg-white mt-5 mb-5">
                             <div class="row">
                                 <div class="col-md-3 border-right">
@@ -124,7 +124,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                                             <h4 class="text-right">System</h4>
                                         </div>
                                         <div class="col-md-12">
-                                            <label class="form-label">Date of Joined</label>
+                                            <label class="form-label">Date of Oppointed</label>
                                             <input type="date" class="form-control" readonly autocomplete="off" required
                                                 value="<?= $date_joined ?>">
                                         </div><br>

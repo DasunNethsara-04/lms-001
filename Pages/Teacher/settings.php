@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
+if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
     ?>
 
     <!DOCTYPE html>
@@ -63,7 +63,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                 <!-- Your further code goes here. keep coding in this div -->
                 <div class="container mt-3">
                     <!-- Login Info -->
-                    <form action="../../data/change-student-login-data.php?cur_email=<?= $_SESSION['email'] ?>&op=1"
+                    <form action="../../data/change-teacher-login-data.php?cur_email=<?= $_SESSION['email'] ?>&op=1"
                         method="post" class="shadow p-3  mt-5 form-w">
                         <h3>Change Email</h3>
                         <hr>
@@ -75,7 +75,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                         <button type="submit" class="btn btn-warning" name="change_pwd">Update</button>
                     </form>
 
-                    <form action="../../data/change-student-login-data.php?cur_email=<?= $_SESSION['email'] ?>&op=2"
+                    <form action="../../data/change-teacher-login-data.php?cur_email=<?= $_SESSION['email'] ?>&op=2"
                         method="post" class="shadow p-3  mt-5 form-w">
                         <h3>Change Passoword</h3>
                         <div class="mb-3">

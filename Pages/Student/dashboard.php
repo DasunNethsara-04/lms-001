@@ -13,10 +13,25 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
     }
     include("../../connection/conn.php");
     $std_email = $_SESSION['email'];
-    $sql2 = "SELECT COUNT(*) AS enrolled FROM student_tbl st INNER JOIN student_enroll_tbl setl ON (st.student_id = setl.student_id) WHERE setl.enrollment_status='Enrolled' AND st.email='$std_email'";
+    $sql2 = "SELECT COUNT(*) AS enrolled, st.first_name FROM student_tbl st INNER JOIN student_enroll_tbl setl ON (st.student_id = setl.student_id) WHERE setl.enrollment_status='Enrolled' AND st.email='$std_email'";
     $result2 = $conn->query($sql2);
     $row2 = $result2->fetch_assoc();
     $num_of_enrolled = $row2["enrolled"];
+    $fname = $row2['first_name'];
+
+    // get the time and greeting message
+    date_default_timezone_set('Asia/Colombo'); // time zone
+
+    $currentTime = date("H");
+
+    if ($currentTime < 12) {
+        $msg = "Good Morning";
+    } elseif ($currentTime < 18) {
+        $msg = "Good Afternoon";
+    } else {
+        $msg = "Good Evening";
+    }
+
 
     ?>
 
@@ -100,17 +115,15 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
             <!-- content goes here. do not remove any code -->
             <div class="container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item">Welcome back, <b>
-                            <?= $_SESSION['role'] ?>
-                        </b> !</li>
-                </ol>
+                <h1 class="mt-3 text-primary display-6">Hi
+                    <?= $fname ?>,
+                    <?= $msg ?>!
+                </h1>
+                <h5 class="">Lets learn somthing new today!</h5>
 
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-md-3">
-                        <div class="card-counter primary">
-                            <!-- <i class="fa fa-code-fork"></i> -->
+                        <div class="card-counter danger">
                             <i style="opacity: 0.4;" class="fa-solid fa-graduation-cap fa-4x"></i>
                             <span class="count-numbers">
                                 <?= fetch_data("course_tbl") ?>
@@ -121,7 +134,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
                     <div class="col-md-3">
                         <div class="card-counter success">
-                            <!-- <i class="fa fa-database  fs-1"></i> -->
                             <i style="opacity: 0.4;" class="fa-solid fa-book fa-4x"></i>
                             <span class="count-numbers">
                                 <?= $num_of_enrolled ?>
@@ -138,6 +150,62 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                             </span>
                             <span class="count-name">Total Uploaded Videos</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <h2>Courses Info</h2>
+                    <div class="container mt-4">
+                        <table class="table table-borderless table-fixed mt-3">
+                            <?php
+                            $sql1 = "SELECT course_name, course_id FROM course_tbl";
+                            $result1 = $conn->query($sql1);
+                            if ($result1->num_rows > 0) {
+                                $total_rows = $result1->num_rows;
+                                while ($row1 = $result1->fetch_assoc()) {
+                                    $course_id = $row1["course_id"];
+                                    $course_name = $row1["course_name"];
+                                    // $num_of_all_courses = $row1['c'];
+                        
+                                    $sql2 = "SELECT COUNT(*) AS num from student_tbl st INNER JOIN student_enroll_tbl setl ON (st.student_id = setl.student_id) INNER JOIN course_tbl ct ON (setl.course_id = ct.course_id) WHERE st.status = 1 AND ct.course_id=$course_id";
+                                    $result2 = $conn->query($sql2);
+                                    $row2 = $result2->fetch_assoc();
+                                    $num = $row2["num"];
+                                    ?>
+
+                                    <tr>
+                                        <th width="35%" title="Course Name">
+                                            <?php
+                                            $choices = array("primary", "warning", "danger", "info", "secondary", "success");
+                                            // Get a random index from the $choices array
+                                            $randomIndex = array_rand($choices);
+                                            // Get the randomly selected class name
+                                            $randomClassName = $choices[$randomIndex];
+                                            ?>
+                                            <i class="fa-solid fa-fire text-<?= $randomClassName ?>"></i>&nbsp;
+                                            <?= $course_name ?>
+
+                                        </th width="15%">
+                                        <th title="Number of Student">
+                                            <?= $num ?>
+                                        </th>
+                                        <td width="55%" title="Popularity">
+                                            <div class="progress" role="progressbar" aria-label="Warning example"
+                                                aria-valuenow="<?= round(($num / $total_rows) * 100, 0) ?>" aria-valuemin="0"
+                                                aria-valuemax="100">
+                                                <div class="progress-bar text-bg-<?= $randomClassName ?>"
+                                                    style="width: <?= round(($num / $total_rows) * 100, 0) ?>%"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </table>
                     </div>
                 </div>
 
@@ -167,5 +235,8 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
     <?php
     $conn->close();
+} else {
+    header("Location: ../../login.php");
+    exit();
 }
 ?>

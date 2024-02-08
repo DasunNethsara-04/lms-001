@@ -45,56 +45,16 @@
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="view-students.php">Student Details</a>
-                            <a class="nav-link" href="">Progress</a>
                         </nav>
                     </div>
-
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-chalkboard-user"></i></i></div>
-                        Teachers
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                        data-bs-parent="#sidenavAccordionPages">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="add-class.php">View</a>
-                            <a class="nav-link" href="add-class.php">Add Teacher</a>
-                        </nav>
-                    </div>
-
-                    <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts6" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-book"></i></div>
-                        Subjects
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts6" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="add-subject.php">Add New Subject</a>
-                            <a class="nav-link" href="assign-to-class.php">Assign to Grades</a>
-                        </nav>
-                    </div>
-
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts7" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-award"></i></div>
-                        Marks
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts7" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="class-reports.php">Class Reports</a>
-                            <a class="nav-link" href="individual-reports.php">Individual Reports</a>
-                            <a class="nav-link" href="analytics.php">Analytics</a>
-                        </nav>
-                    </div> -->
                     <div class="sb-sidenav-menu-heading">Addons</div>
-                    <a class="nav-link getPopup" href="">
-                        <div class="sb-nav-link-icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
-                        Chat
-                    </a>
-                    <a class="nav-link" href="profile.php">
+                    <a class="nav-link" href="./teacher-profile.php">
                         <div class="sb-nav-link-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
                         Profile
+                    </a>
+                    <a class="nav-link getPopup" href="./settings.php">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-gear"></i></div>
+                        Settings
                     </a>
                 </div>
             </div>
@@ -106,15 +66,3 @@
             </div>
         </nav>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $(".getPopup").click(function () {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Sorry',
-                    text: "This feature is currently unavailable!"
-                });
-            })
-        });
-    </script>
