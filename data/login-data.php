@@ -9,12 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $role = $_POST["role"];
 
     if ($role == "teacher") {
-        $stmt = $conn->prepare("SELECT email, password FROM teacher_tbl WHERE email=?");
+        $stmt = $conn->prepare("SELECT email, password FROM teacher_tbl WHERE email=? AND status=?");
     } else {
-        $stmt = $conn->prepare("SELECT email, password FROM student_tbl WHERE email=?");
+        $stmt = $conn->prepare("SELECT email, password FROM student_tbl WHERE email=? AND status=?");
     }
+    $status = 1;
 
-    $stmt->bind_param("s", $email);
+    $stmt->bind_param("si", $email, $status);
     $stmt->execute();
 
     $result = $stmt->get_result();

@@ -5,8 +5,8 @@ $status = ($_GET['cur_state'] == 1) ? 0 : 1;
 $sql = "UPDATE student_tbl SET status='$status' WHERE student_id='$student_id'";
 
 if ($conn->query($sql)) {
-    $conn->close();
     // done
+    $conn->close();
     if ($status == 0) {
         $success_message = "Student Deactivated";
         $success_message = htmlspecialchars($success_message, ENT_QUOTES, 'UTF-8');

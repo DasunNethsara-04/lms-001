@@ -2,6 +2,22 @@
 session_start();
 
 if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
+
+    function fetch_data($table_name)
+    {
+        include("../../connection/conn.php");
+        $sql = "SELECT COUNT(*) AS num FROM $table_name";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        return $row['num'];
+    }
+    include("../../connection/conn.php");
+    $std_email = $_SESSION['email'];
+    $sql2 = "SELECT COUNT(*) AS enrolled FROM student_tbl st INNER JOIN student_enroll_tbl setl ON (st.student_id = setl.student_id) WHERE setl.enrollment_status='Enrolled' AND st.email='$std_email'";
+    $result2 = $conn->query($sql2);
+    $row2 = $result2->fetch_assoc();
+    $num_of_enrolled = $row2["enrolled"];
+
     ?>
 
     <!DOCTYPE html>
@@ -20,26 +36,58 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
         <link rel="stylesheet" href="../../styles/styles.css">
         <title>Student Dashboard | Techසර LK</title>
         <style>
-            .card {
-                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-            }
-
-            .card {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                min-width: 0;
-                word-wrap: break-word;
+            .card-counter {
+                box-shadow: 2px 2px 10px #dadada;
+                margin: 5px;
+                padding: 20px 10px;
                 background-color: #fff;
-                background-clip: border-box;
-                border: 0 solid rgba(0, 0, 0, .125);
-                border-radius: .25rem;
+                height: 100px;
+                border-radius: 5px;
+                transition: 0.3s linear all;
             }
 
-            .card-body {
-                flex: 1 1 auto;
-                min-height: 1px;
-                padding: 1rem;
+            .card-counter:hover {
+                box-shadow: 4px 4px 20px #dadada;
+                transition: 0.3s linear all;
+            }
+
+            .card-counter.primary {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .card-counter.danger {
+                background-color: #ef5350;
+                color: #fff;
+            }
+
+            .card-counter.success {
+                background-color: #66bb6a;
+                color: #fff;
+            }
+
+            .card-counter.info {
+                background-color: #26c6da;
+                color: #fff;
+            }
+
+            .card-counter .count-numbers {
+                position: absolute;
+                right: 35px;
+                top: 20px;
+                font-size: 32px;
+                display: block;
+            }
+
+            .card-counter .count-name {
+                position: absolute;
+                right: 35px;
+                top: 65px;
+                font-style: italic;
+                text-transform: capitalize;
+                opacity: 0.5;
+                display: block;
+                font-size: 18px;
             }
         </style>
     </head>
@@ -52,110 +100,47 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
 
             <!-- content goes here. do not remove any code -->
             <div class="container-fluid">
-                <!-- <h1 class="mt-4">Dashboard</h1> -->
+                <h1 class="mt-4">Dashboard</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item">Welcome back, <b>
                             <?= $_SESSION['role'] ?>
                         </b> !</li>
                 </ol>
 
-                <h1 class="mt-4">All Playlists</h1>
-                <div class="row mt-4">
-                    <?php
-                    include("../../connection/conn.php");
-                    $sql1 = "SELECT
-                                c.course_id,
-                                c.course_name,
-                                c.course_pic,
-                                c.course_type_id,
-                                COUNT(DISTINCT l.lesson_id) AS num_lessons,
-                                CONCAT(t.title, ' ', t.first_name, ' ', t.last_name) AS teacher_name
-                            FROM
-                                course_tbl c
-                            LEFT JOIN
-                                lesson_tbl l ON c.course_id = l.course_id
-                            LEFT JOIN
-                                teacher_tbl t ON c.teacher_id = t.teacher_id
-                            GROUP BY
-                                c.course_id, c.course_name, c.course_pic, c.course_type_id, t.title, t.first_name, t.last_name;
-                            ;
-                        ";
-                    $result1 = $conn->query($sql1);
-                    if ($result->num_rows > 0) {
-                        // have some playlists
-                        while ($row1 = $result1->fetch_assoc()) {
-                            $crs_id = $row1["course_id"];
-                            $crs_name = $row1["course_name"];
-                            $crs_videos = $row1["num_lessons"];
-                            $teacher_name = $row1["teacher_name"];
-                            $course_pic = $row1["course_pic"];
-                            $course_topic_id = $row1["course_type_id"];
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card-counter primary">
+                            <!-- <i class="fa fa-code-fork"></i> -->
+                            <i style="opacity: 0.4;" class="fa-solid fa-graduation-cap fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= fetch_data("course_tbl") ?>
+                            </span>
+                            <span class="count-name">Total Courses</span>
+                        </div>
+                    </div>
 
-                            $sql2 = "SELECT course_type_name FROM course_type_tbl WHERE course_type_id='$course_topic_id'";
-                            $result2 = $conn->query($sql2);
-                            $row2 = $result2->fetch_assoc();
-                            $course_type_name = $row2["course_type_name"];
+                    <div class="col-md-3">
+                        <div class="card-counter success">
+                            <!-- <i class="fa fa-database  fs-1"></i> -->
+                            <i style="opacity: 0.4;" class="fa-solid fa-book fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= $num_of_enrolled ?>
+                            </span>
+                            <span class="count-name">Enrolled Courses</span>
+                        </div>
+                    </div>
 
-
-                            ?>
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-column align-items-center text-center">
-                                            <img src="../<?= $course_pic ?>" alt="<?= $course_name ?>" class="rounded-circle"
-                                                width="100">
-                                            <div class="mt-3">
-                                                <h4>
-                                                    <?= $crs_name ?>
-                                                </h4>
-                                                <p class="text-secondary mb-1">Topic: <span class="badge rounded-pill text-bg-info">
-                                                        <?= $course_type_name ?>
-                                                    </span></p>
-                                                <p class="text-muted font-size-sm">Teacher: <b>
-                                                        <?= $teacher_name ?>
-                                                    </b></p>
-                                                <p class="text-muted font-size-sm">Videos: <b>
-                                                        <?= $crs_videos ?>
-                                                    </b>
-                                                    </b></p>
-
-                                                <?php
-                                                $std_email = $_SESSION['email'];
-                                                $sql2 = "SELECT
-                                                            st.*,
-                                                            c.*
-                                                        FROM
-                                                            student_tbl st
-                                                        INNER JOIN
-                                                            student_enroll_tbl se ON st.student_id = se.student_id
-                                                        INNER JOIN
-                                                            course_tbl c ON se.course_id = c.course_id
-                                                        WHERE
-                                                            st.email = '$std_email' AND c.course_id = $crs_id;
-                                                        ";
-                                                $result2 = $conn->query($sql2);
-                                                if ($result2->num_rows < 1) {
-                                                    ?>
-                                                    <a class="btn btn-primary btn-sm <?= ($crs_videos > 0) ? "" : "disabled" ?>"
-                                                        href="../../data/enroll-student-to-course.php?course_id=<?= $crs_id ?>&student_email=<?= $std_email ?>&course_name=<?= $crs_name ?>">Enroll</a>
-                                                <?php } else {
-                                                    ?>
-                                                    <a class="btn btn-secondary btn-sm <?= ($crs_videos > 0) ? "" : "disabled" ?>"
-                                                        href="show-video-list.php?course_id=<?= $crs_id ?>&course_name=<?= $crs_name ?>">Continue</a>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    }
-                    ?>
-
+                    <div class="col-md-3">
+                        <div class="card-counter info">
+                            <i style="opacity: 0.4;" class="fa-solid fa-video  fa-4x"></i>
+                            <span class="count-numbers">
+                                <?= fetch_data("lesson_tbl") ?>
+                            </span>
+                            <span class="count-name">Total Uploaded Videos</span>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             <!-- footer -->

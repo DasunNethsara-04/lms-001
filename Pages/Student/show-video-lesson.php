@@ -135,29 +135,11 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                                 <?php
                             }
                         } else {
-                            // Handle the case where the query failed
-                            echo "Query failed.";
                         }
-
-
-
                         ?>
-
-
-                        <!-- <a class="btn btn-primary dis"
-                                    href="show-video-lesson.php?url=<?= $next_lesson_url ?>&lesson_number=<?= $next_lesson_number ?>&status=<?= $next_lesson_status ?>&lesson_name=<?= $next_lesson_name ?>&course_name=<?= $course_name ?>&course_id=<?= $course_id ?>"><i
-                                        class="fa-solid fa-arrow-right"></i>
-                                    Next
-                                    Lesson</a> -->
-
-
                     </div>
-
-
                 </div>
-
             </div>
-
             <!-- footer -->
             <?php include '../footer.php'; ?>
         </div>
