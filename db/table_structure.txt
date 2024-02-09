@@ -1,0 +1,7 @@
+student_enroll_tbl (enroll_id, student_id, course_id, enrollment_status, enrollment_date),
+lesson_tbl(lesson_id, lesson_number, lesson_url, course_id, lesson_name),
+course_tbl(course_id, course_name, course_type_id, teacher_id, course_type_id, course_pic),
+course_type_tbl(course_type_id, course_type_name),
+student_tbl(student_id, first_name, last_name, email, password, date_added, date_updated, status),
+teacher_tbl(teacher_id, title, first_name, last_name, email, password, date_added, date_updated, last_login, status),
+student_lesson_progress_tbl(progress_id, enroll_id, lesson_id, watched_status, progress_date)
