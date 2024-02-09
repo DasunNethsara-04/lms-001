@@ -9,6 +9,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Login Now | Techසර LK</title>
+    <link rel="shortcut icon" href="./src/imgs/logo.png" type="image/x-icon">
 </head>
 
 <body>
@@ -19,33 +20,33 @@
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="./src/imgs/img1.webp"
-                                    alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+                                <img src="./src/imgs/img1.webp" alt="login form" class="img-fluid"
+                                    style="border-radius: 1rem 0 0 1rem;" />
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
-                                <?php if (isset($_GET['success'])) { ?>
-                                    <!-- <div class='alert alert-danger' role='alert'>
+                                    <?php if (isset($_GET['success'])) { ?>
+                                        <!-- <div class='alert alert-danger' role='alert'>
                                     </div> -->
-                                    <script>
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Done',
-                                            text: "<?= $_GET['success'] ?>"
-                                        })
-                                    </script>
-                                <?php } ?>
-                                <?php if (isset($_GET['error'])) { ?>
-                                    <!-- <div class='alert alert-danger' role='alert'>
+                                        <script>
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Done',
+                                                text: "<?= $_GET['success'] ?>"
+                                            })
+                                        </script>
+                                    <?php } ?>
+                                    <?php if (isset($_GET['error'])) { ?>
+                                        <!-- <div class='alert alert-danger' role='alert'>
                                     </div> -->
-                                    <script>
-                                        Swal.fire({
-                                            icon: 'warning',
-                                            title: 'Oops...',
-                                            text: "<?= $_GET['error'] ?>"
-                                        })
-                                    </script>
-                                <?php } ?>
+                                        <script>
+                                            Swal.fire({
+                                                icon: 'warning',
+                                                title: 'Oops...',
+                                                text: "<?= $_GET['error'] ?>"
+                                            })
+                                        </script>
+                                    <?php } ?>
                                     <form action="./data/login-data.php" method="post">
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
@@ -57,8 +58,8 @@
 
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example17">Email address</label>
-                                            <input type="email" id="form2Example17"
-                                                class="form-control form-control-lg" name="email" required />
+                                            <input type="email" id="form2Example17" class="form-control form-control-lg"
+                                                name="email" required />
                                         </div>
 
                                         <div class="form-outline mb-4">
@@ -77,8 +78,10 @@
 
                                         <div class="pt-1 mb-4">
                                             <!-- <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button> -->
-                                            <input type="submit" value="Login" name="login" class="btn btn-dark btn-lg btn-block" />
-                                            <button class="btn btn-link" onclick="redirectToReg()">I don't have an account</button>
+                                            <input type="submit" value="Login" name="login"
+                                                class="btn btn-dark btn-lg btn-block" />
+                                            <button class="btn btn-link" onclick="redirectToReg()">I don't have an
+                                                account</button>
                                         </div>
                                     </form>
 

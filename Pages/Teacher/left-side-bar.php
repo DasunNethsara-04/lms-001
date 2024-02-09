@@ -47,6 +47,18 @@
                             <a class="nav-link" href="view-students.php">Student Details</a>
                         </nav>
                     </div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts9"
+                        aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fa-regular fa-message"></i></div>
+                        Messages
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts9" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="review-messages.php">Show & Review</a>
+                        </nav>
+                    </div>
                     <div class="sb-sidenav-menu-heading">Addons</div>
                     <a class="nav-link" href="./teacher-profile.php">
                         <div class="sb-nav-link-icon"><i class="fa fa-user" aria-hidden="true"></i></div>

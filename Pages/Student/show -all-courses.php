@@ -18,6 +18,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
+        <link rel="shortcut icon" href="../../src/imgs/logo.png" type="image/x-icon">
         <title>All Courses | Techසර LK</title>
         <style>
             .card {
@@ -45,7 +46,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include '../top-navbar.php'; ?>
+        <?php include 'top-navbar.php'; ?>
         <?php include 'left-side-bar.php'; ?>
 
         <div id="layoutSidenav_content">

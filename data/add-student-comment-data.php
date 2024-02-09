@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt1->bind_param("si", $email, $status);
         $stmt1->execute();
         $result1 = $stmt1->get_result();
+        $stmt1->close();
         if ($result1->num_rows > 0) {
             $student_id = $result1->fetch_assoc()['student_id'];
 
@@ -53,7 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt2 = $conn->prepare("INSERT INTO comments_tbl (student_id, message_type,  message, date_added, status) VALUES (?, ?, ?, ?, ?)");
             $stmt2->bind_param("isssi", $student_id, $msg_type, $msg, $cur_date, $status);
             $stmt2->execute();
-            if ($stmt2->affected_rows) {
+            $result2 = $stmt2->affected_rows;
+            $stmt2->close();
+            $conn->close();
+            if ($result2) {
                 // success
                 $success_message = "Your Comment send for Admin Review!";
                 header("Location: ../Pages/Student/add-comment.php?success=$success_message");

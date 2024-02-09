@@ -20,6 +20,10 @@
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Addons</div>
+                    <a class="nav-link getPopup" href="./add-comment.php">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-comment"></i></div>
+                        Add Comment
+                    </a>
                     <a class="nav-link" href="./student-profile.php">
                         <div class="sb-nav-link-icon"><i class="fa fa-user" aria-hidden="true"></i></div>
                         Profile

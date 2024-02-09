@@ -29,11 +29,12 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../../styles/styles.css">
+        <link rel="shortcut icon" href="../../src/imgs/logo.png" type="image/x-icon">
         <title>Student Profile | Techසර LK</title>
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include '../top-navbar.php'; ?>
+        <?php include 'top-navbar.php'; ?>
         <?php include 'left-side-bar.php'; ?>
 
         <div id="layoutSidenav_content">
@@ -110,21 +111,6 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Teacher") {
                                         <div class="d-flex justify-content-between align-items-center experience mb-3">
                                             <h4 class="text-right">Learning Info</h4>
                                         </div>
-                                        <!-- <div class="col-md-12">
-                                            <label class="form-label">Admission Number</label>
-                                            <input type="text" class="form-control" readonly autocomplete="off" required
-                                                value="">
-                                        </div> <br>
-                                        <div class="col-md-12">
-                                            <label class="form-label">Date of Admission</label>
-                                            <input type="date" class="form-control" readonly autocomplete="off" required
-                                                value="">
-                                        </div><br>
-                                        <div class="col-md-12">
-                                            <label class="form-label">Date Added</label>
-                                            <input type="date" class="form-control" readonly autocomplete="off" required
-                                                value="">
-                                        </div><br> -->
                                     </div>
                                 </div>
                             </div>

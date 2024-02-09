@@ -21,7 +21,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
     </head>
 
     <body class="sb-nav-fixed">
-        <?php include '../top-navbar.php'; ?>
+        <?php include 'top-navbar.php'; ?>
         <?php include 'left-side-bar.php'; ?>
 
         <div id="layoutSidenav_content">
@@ -29,8 +29,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                 <h1 class="mt-4">Add a New Student</h1>
 
                 <!-- Your further code goes here. keep coding in this div -->
-                <div class="container mt-5">
-                    <?php if (isset($_GET['success'])) { ?>
+                <div class="container mt-5"><?php if (isset($_GET['success'])) { ?>
                         <script>
                             Swal.fire({
                                 icon: 'success',
@@ -59,6 +58,7 @@ if (isset($_SESSION["email"]) && $_SESSION["role"] == "Student") {
                             })
                         </script>
                     <?php } ?>
+                    
 
                     <form action="../../data/add-student-comment-data.php" method="post" class="shadow p-3 mt-5 form-w"
                         enctype='multipart/form-data'>

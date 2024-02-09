@@ -8,10 +8,11 @@
     <!-- Bootstarp CSS cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="shortcut icon" href="./src/imgs/logo.png" type="image/x-icon">
 </head>
 
 <body>
-    
+
     <div class="container text-center">
         <h1 class="display-3">DN School</h1>
         <button class="mt-5 btn btn-info btn-lg" onclick="route(1)">Login Now...</button><br>
